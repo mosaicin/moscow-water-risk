@@ -8,6 +8,7 @@ import {
   CircleHelp,
   Droplets,
   ExternalLink,
+  Languages,
   Mountain,
   Radio,
   ShieldCheck,
@@ -47,6 +48,30 @@ const scenarioData = [
   },
 ];
 
+const translations = {
+  en: {
+    name: "English",
+    native: "English",
+    title: "When will water cover Moscow?",
+    body: "A scenario briefing, not a scientific forecast. A probability figure without a cause, timeframe and model cannot produce a calendar date.",
+    status: "No confirmed scenario for flooding all of Moscow and the Moscow Region.",
+  },
+  ja: {
+    name: "Japanese",
+    native: "日本語",
+    title: "モスクワを水が覆うのはいつ？",
+    body: "これは科学的な予測ではなく、シナリオ解説です。原因・期間・モデルのない確率だけでは、具体的な日付は導けません。",
+    status: "モスクワとモスクワ州全域が浸水する確かなシナリオは確認されていません。",
+  },
+  zh: {
+    name: "Chinese",
+    native: "中文",
+    title: "水什么时候会淹没莫斯科？",
+    body: "这是情景说明，不是科学预测。没有原因、时间范围和模型，单独的概率无法转换成具体日期。",
+    status: "目前没有证据表明莫斯科及莫斯科州会整体被水淹没。",
+  },
+} as const;
+
 function formatDate() {
   return new Intl.DateTimeFormat("ru-RU", {
     day: "2-digit",
@@ -59,6 +84,8 @@ export default function Home() {
   const [probability, setProbability] = useState(79);
   const [activeScenario, setActiveScenario] = useState("rivers");
   const [showDetails, setShowDetails] = useState(false);
+  const [showLanguages, setShowLanguages] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<keyof typeof translations>("en");
 
   const active = useMemo(
     () => scenarioData.find((item) => item.id === activeScenario) ?? scenarioData[2],
@@ -78,6 +105,7 @@ export default function Home() {
           <span className="live-dot" />
           <span>Сценарный режим</span>
           <span className="top-date">{formatDate()}</span>
+          <button className="language-trigger" onClick={() => setShowLanguages(true)} aria-label="Открыть переводы"><Languages size={14} /> <span>RU / EN / JP / CN</span></button>
         </div>
       </header>
 
@@ -186,8 +214,20 @@ export default function Home() {
         {showDetails && <div className="details-panel"><b>Как читать такие сообщения</b><span>1. Найдите первоисточник.</span><span>2. Проверьте, что именно измеряет процент.</span><span>3. Отделяйте локальное подтопление от затопления региона.</span></div>}
       </section>
 
+      {showLanguages && (
+        <div className="language-backdrop" role="presentation" onClick={() => setShowLanguages(false)}>
+          <section className="language-modal" role="dialog" aria-modal="true" aria-labelledby="language-title" onClick={(event) => event.stopPropagation()}>
+            <div className="language-modal-head"><div><p className="eyebrow"><span>LANG</span> Translation window</p><h2 id="language-title">Перевод брифинга</h2></div><button className="modal-close" onClick={() => setShowLanguages(false)} aria-label="Закрыть">×</button></div>
+            <div className="language-tabs" role="tablist">
+              {(Object.keys(translations) as Array<keyof typeof translations>).map((key) => <button key={key} role="tab" aria-selected={selectedLanguage === key} className={selectedLanguage === key ? "selected" : ""} onClick={() => setSelectedLanguage(key)}><span>{translations[key].native}</span><small>{translations[key].name}</small></button>)}
+            </div>
+            <div className="translation-card"><span className="translation-label">{translations[selectedLanguage].native}</span><h3>{translations[selectedLanguage].title}</h3><p>{translations[selectedLanguage].body}</p><div className="translation-status"><ShieldCheck size={16} /> {translations[selectedLanguage].status}</div></div>
+            <p className="modal-note">Русская версия остаётся основной. Перевод — справочный и не заменяет официальные сообщения NASA, ESA или МЧС.</p>
+          </section>
+        </div>
+      )}
+
       <footer className="footer container"><span>Москва под водой? <b>Данные важнее паники.</b></span><span>Справочный интерфейс · не является официальным прогнозом</span><a href="https://science.nasa.gov/solar-system/asteroids/2024-yr4/" target="_blank" rel="noreferrer">NASA / 2024 YR4 <ExternalLink size={13} /></a></footer>
     </main>
   );
 }
-

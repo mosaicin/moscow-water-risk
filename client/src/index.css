@@ -178,6 +178,27 @@ h2 { color: var(--ink); font-size: clamp(40px, 5vw, 65px); line-height: .98; fon
 .footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 0 30px; border-top: 1px solid var(--line); color: #84949a; font-size: 9px; letter-spacing: .02em; }
 .footer b { color: var(--ink); font-weight: 500; }
 .footer a { display: inline-flex; align-items: center; gap: 5px; color: var(--cyan-deep); }
+.language-trigger { display: inline-flex; align-items: center; gap: 6px; margin-left: 8px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 5px; background: rgba(255,255,255,.42); color: var(--cyan-deep); font: 9px 'DM Mono', monospace; letter-spacing: .04em; transition: .18s ease; }
+.language-trigger:hover { border-color: var(--cyan-deep); background: #e3f1ed; }
+.language-backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgba(5,18,27,.7); backdrop-filter: blur(10px); }
+.language-modal { width: min(560px, 100%); padding: 30px; border: 1px solid rgba(134,229,218,.34); border-radius: 12px; background: #102430; color: var(--paper); box-shadow: 0 30px 90px rgba(0,0,0,.35); animation: modal-in .22s cubic-bezier(.23,1,.32,1) both; }
+.language-modal-head { display: flex; justify-content: space-between; align-items: start; }
+.language-modal .eyebrow { margin-bottom: 14px; color: #8da1a5; }
+.language-modal h2 { color: var(--paper); font-size: 34px; }
+.modal-close { cursor: pointer; width: 31px; height: 31px; border-radius: 50%; color: #a8c0c0; background: rgba(255,255,255,.07); font-size: 24px; line-height: 1; transition: .18s ease; }
+.modal-close:hover { color: var(--paper); background: rgba(134,229,218,.17); }
+.language-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 24px 0 16px; }
+.language-tabs button { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 9px; padding: 11px 12px; border: 1px solid rgba(207,242,237,.14); border-radius: 6px; background: rgba(255,255,255,.035); color: #9bb0b3; text-align: left; transition: .18s ease; }
+.language-tabs button:hover, .language-tabs button.selected { border-color: var(--cyan); color: var(--cyan); background: rgba(134,229,218,.1); }
+.language-tabs button span { font-size: 14px; }
+.language-tabs button small { font: 8px 'DM Mono', monospace; text-transform: uppercase; }
+.translation-card { padding: 23px; border: 1px solid rgba(134,229,218,.2); border-radius: 8px; background: linear-gradient(135deg, rgba(134,229,218,.1), rgba(255,255,255,.035)); }
+.translation-label { color: var(--cyan); font: 9px 'DM Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+.translation-card h3 { margin: 15px 0 10px; color: var(--paper); font-size: 26px; letter-spacing: -.04em; }
+.translation-card p { color: #b0c2c3; font-size: 12px; line-height: 1.8; margin-bottom: 17px; }
+.translation-status { display: flex; align-items: flex-start; gap: 8px; color: var(--cyan); font-size: 10px; line-height: 1.55; }
+.modal-note { color: #789095; font-size: 10px; line-height: 1.6; margin: 17px 0 0; }
+@keyframes modal-in { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 @media (max-width: 900px) {
   .container { width: min(100% - 40px, 680px); }
@@ -194,6 +215,8 @@ h2 { color: var(--ink); font-size: clamp(40px, 5vw, 65px); line-height: .98; fon
   .topbar { height: 68px; }
   .top-date { display: none; }
   .top-meta { font-size: 8px; }
+  .language-trigger { margin-left: 0; padding: 6px; }
+  .language-trigger span { display: none; }
   h1 { font-size: 54px; }
   .hero { min-height: 0; padding-top: 50px; }
   .hero-actions { align-items: start; flex-direction: column; gap: 17px; }
@@ -214,6 +237,9 @@ h2 { color: var(--ink); font-size: clamp(40px, 5vw, 65px); line-height: .98; fon
   .ghost-btn { grid-column: auto; }
   .final-card h2 { font-size: 32px; }
   .footer { align-items: start; flex-direction: column; gap: 9px; }
+  .language-modal { padding: 22px; }
+  .language-tabs { gap: 5px; }
+  .language-tabs button { padding: 10px 8px; flex-direction: column; align-items: start; gap: 3px; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
